@@ -12,6 +12,10 @@ module.exports = {
       url: QUICKNODE_HTTP_URL,
       accounts: [PRIVATE_KEY],
     },
+    linea_goerli: {
+      url: QUICKNODE_HTTP_URL,
+      accounts: [PRIVATE_KEY],
+    }
   },
   etherscan: {
     apiKey: ETHERSCAN_API_KEY,
