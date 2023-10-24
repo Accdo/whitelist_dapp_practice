@@ -4,34 +4,32 @@ pragma solidity ^0.8.18;
 
 contract Whitelist {
 
-    // Max number of whitelisted addresses allowed
+    // 최대 허용 가능한 화이트리스트 수
     uint8 public maxWhitelistedAddresses;
 
-    // Create a mapping of whitelistedAddresses
-    // if an address is whitelisted, we would set it to true, it is false by default for all other addresses.
+    // 화이트리스트에 등록된 지갑 주소(화리 등록시 값이 True)
     mapping(address => bool) public whitelistedAddresses;
 
-    // numAddressesWhitelisted would be used to keep track of how many addresses have been whitelisted
+    // 실제 화리에 등록한 지갑 수
     uint8 public numAddressesWhitelisted;
 
-    // Setting the Max number of whitelisted addresses
-    // User will put the value at the time of deployment
+    // Whitelist컨트랙트가 실행될 때 함께 실행되는 생성자함수
     constructor(uint8 _maxWhitelistedAddresses) {
         maxWhitelistedAddresses =  _maxWhitelistedAddresses;
     }
 
-    /**
-        addAddressToWhitelist - This function adds the address of the sender to the
-        whitelist
-     */
+    // 지갑 주소를 화이트리스트에 등록시켜주는 함수
     function addAddressToWhitelist() public {
-        // check if the user has already been whitelisted
+        // 특정 지갑이 화리에 이미 등록이 되어있는지 확인하기
         require(!whitelistedAddresses[msg.sender], "Sender has already been whitelisted");
-        // check if the numAddressesWhitelisted < maxWhitelistedAddresses, if not then throw an error.
+
+        // 허용 가능한 최대 인원수보다 더 많은 사람들이 화리에 등록하려 할때 에러 처리
         require(numAddressesWhitelisted < maxWhitelistedAddresses, "More addresses cant be added, limit reached");
-        // Add the address which called the function to the whitelistedAddress array
+
+        // 화리에 등록시킬 주소를 맵에 추가, 키는 지갑주소, 값은 TRUE
         whitelistedAddresses[msg.sender] = true;
-        // Increase the number of whitelisted addresses
+        
+        // 실제 화리에 등록된 지갑 '수' 증가시키기
         numAddressesWhitelisted += 1;
     }
 
